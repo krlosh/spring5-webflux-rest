@@ -28,10 +28,13 @@ repositories {
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
     implementation('org.springframework.boot:spring-boot-starter-webflux')
+    //Using compile dependency runs embedded mongo. To use external mongo move to testcompile
+    compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
     compileOnly('org.projectlombok:lombok')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
-    testImplementation('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
     testImplementation('io.projectreactor:reactor-test')
+    //testImplementation('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+    //testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 }
 
 
