@@ -32,4 +32,11 @@ public class VendorController {
     public Mono<Void> createVendor(@RequestBody Publisher<Vendor> vendorStream){
         return this.vendorRepository.saveAll(vendorStream).then();
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/api/v1/vendors/{id}")
+    public Mono<Vendor> updateVendor(@PathVariable String id, @RequestBody Vendor vendor ){
+        vendor.setId(id);
+        return this.vendorRepository.save(vendor);
+    }
 }
