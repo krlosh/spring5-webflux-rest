@@ -2,6 +2,7 @@ package guru.springframework.spring5webfluxrest.controllers;
 
 import guru.springframework.spring5webfluxrest.domain.Category;
 import guru.springframework.spring5webfluxrest.repositories.CategoryRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.reactivestreams.Publisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +38,17 @@ public class CategoryController {
     public Mono<Category> updateCategory(@PathVariable String id, Category category) {
         category.setId(id);
         return this.categoryRepository.save(category);
+    }
+
+
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/api/v1/categories/{id}")
+    public Mono<Category> patchCategory(@PathVariable String id, @RequestBody Category category) {
+        Category categoryFound = this.categoryRepository.findById(id).block();
+        if(!StringUtils.equals(categoryFound.getDescription(), category.getDescription())) {
+            categoryFound.setDescription(category.getDescription());
+            return this.categoryRepository.save(categoryFound);
+        }
+        return Mono.just(categoryFound);
     }
 }
